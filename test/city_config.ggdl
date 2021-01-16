@@ -1,0 +1,12 @@
+System City
+	Component ResidentialBuilding
+		count: 30 - 60
+		size: (6 -10, 4 - 8   )
+		near:
+			Market
+				preferredDistance: 1
+				clusterCount: 5-10
+
+	Component Market
+		count: 6
+		size: [( 10,   15), (6, 10) ]

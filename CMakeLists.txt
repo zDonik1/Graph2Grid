@@ -30,6 +30,7 @@ include(3rd/PackageProject/CMakeLists.txt)
 
 set(HEADERS
     include/graph2grid/system.h
+    include/graph2grid/tree_parse/range.h
 )
 
 set(SOURCES

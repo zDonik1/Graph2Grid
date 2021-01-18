@@ -48,6 +48,7 @@ CPMAddPackage(
 set(SOURCES
   source/main.cpp
   source/test.cpp
+  source/tree_parse_test.cpp
 )
 
 # making the exectuable
@@ -69,12 +70,9 @@ if(NOT TEST_INSTALLED_VERSION)
   endif()
 endif()
 
-# ---- Add GreeterTests ----
+# ---- Add Tests ----
 
 enable_testing()
-
-# Note: doctest and similar testing frameworks can automatically configure CMake tests For other
-# testing frameworks add the tests target instead: ADD_TEST(GreeterTests GreeterTests)
 
 include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
 doctest_discover_tests(${PROJECT_NAME})

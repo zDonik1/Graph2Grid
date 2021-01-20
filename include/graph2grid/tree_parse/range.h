@@ -12,10 +12,8 @@
 
 namespace zg2g {
 
-using namespace std;
-
 template <typename Condition, typename Default = void>
-using EnableIf = typename enable_if<Condition::value, Default>::type;
+using EnableIf = typename std::enable_if<Condition::value, Default>::type;
 
 /**
  * @brief Holds a range of some numeric type
@@ -24,7 +22,7 @@ using EnableIf = typename enable_if<Condition::value, Default>::type;
  * number from the range on demand. The template argument should be of an
  * arithmetic type (either integer or real types).
  */
-template <typename Numeric, typename = EnableIf<is_arithmetic<Numeric>>>
+template <typename Numeric, typename = EnableIf<std::is_arithmetic<Numeric>>>
 class Range
 {
     Numeric m_min;
@@ -40,7 +38,6 @@ private:
     using NumericEnableIf = EnableIf<Condition, Numeric>;
 
 public:
-
     /**
      * @brief Constructor for one number.
      * @param num
@@ -48,7 +45,7 @@ public:
      * Ranges can hold a single number, which works as if it was just a number.
      * Note: Ranges can hold one number only if it is of integral type!
      */
-    template<typename Integral = NumericEnableIf<is_integral<Numeric>>>
+    template<typename Integral = NumericEnableIf<std::is_integral<Numeric>>>
     Range(Integral num)
         : m_min(num)
         , m_max(num)
@@ -74,15 +71,15 @@ public:
      * which is inclusive - [min, max];
      */
     template<IntSpecialization dummy = intDummy,
-             typename Integral = NumericEnableIf<is_integral<Numeric>>>
+             typename Integral = NumericEnableIf<std::is_integral<Numeric>>>
     Integral getRandom() const
     {
         if (m_min == m_max) {
             return m_min;
         }
 
-        default_random_engine generator;
-        uniform_int_distribution<Integral> distribution(m_min, m_max);
+        std::default_random_engine generator;
+        std::uniform_int_distribution<Integral> distribution(m_min, m_max);
         return distribution(generator);
     }
 
@@ -94,11 +91,11 @@ public:
      * where min value is inclusive, and max value is exclusive - [min, max).
      */
     template<FloatSpecialization dummy = floatDummy,
-             typename Real = NumericEnableIf<is_floating_point<Numeric>>>
+             typename Real = NumericEnableIf<std::is_floating_point<Numeric>>>
     Real getRandom() const
     {
-        default_random_engine generator;
-        uniform_real_distribution<Real> distribution(m_min, m_max);
+        std::default_random_engine generator;
+        std::uniform_real_distribution<Real> distribution(m_min, m_max);
         return distribution(generator);
     }
 

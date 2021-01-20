@@ -118,4 +118,4 @@ public:
     }
 };
 
-}
+} // namespace zg2g

@@ -14,7 +14,7 @@ using namespace zg2g;
 
 TEST_CASE("Range") {
     SUBCASE("one value") {
-        const Range<int> range(10);
+        const Range range(10);
         CHECK(range.min() == 10);
         CHECK(range.max() == 10);
         CHECK(range.getRandom() == 10);

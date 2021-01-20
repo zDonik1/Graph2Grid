@@ -39,14 +39,14 @@ private:
 
 public:
     /**
-     * @brief Constructor for one number.
-     * @param num
+     * @brief Constructor for one number
+     * @param num Integer to be saved in range
      *
      * Ranges can hold a single number, which works as if it was just a number.
      * Note: Ranges can hold one number only if it is of integral type!
      */
-    template<typename Integral = NumericEnableIf<std::is_integral<Numeric>>>
-    Range(Integral num)
+    template<typename = EnableIf<std::is_integral<Numeric>>>
+    Range(Numeric num)
         : m_min(num)
         , m_max(num)
     {
@@ -54,8 +54,8 @@ public:
 
     /**
      * @brief Constructor for min and max in range
-     * @param min
-     * @param max
+     * @param min Numeric to be saved as minimum of range
+     * @param max Numeric to be saved as maximum of range
      */
     Range(Numeric min, Numeric max)
         : m_min(min)
@@ -65,7 +65,7 @@ public:
 
     /**
      * @brief Returns a random number in range
-     * @return Numeric type
+     * @return Random number in range of Integral type
      *
      * Generates a uniformly distritbuted random number in the range,
      * which is inclusive - [min, max];
@@ -85,7 +85,7 @@ public:
 
     /**
      * @brief Returns a random number in range
-     * @return Numeric type
+     * @return  Random number in range of Real type
      *
      * Generates a uniformly distritbuted random number in the range,
      * where min value is inclusive, and max value is exclusive - [min, max).
@@ -101,7 +101,7 @@ public:
 
     /**
      * @brief Returns minimum value in range
-     * @return Numeric type
+     * @return Minimum of range of Numeric type
      */
     inline Numeric min() const
     {
@@ -110,7 +110,7 @@ public:
 
     /**
      * @brief Returns maximum value in range
-     * @return Numeric type
+     * @return Maximum of range of Numeric type
      */
     inline Numeric max() const
     {
@@ -119,8 +119,8 @@ public:
 
     /**
      * @brief Compares ranges for equality
-     * @param rhs
-     * @return bool
+     * @param rhs Range on the right hand side of == operator
+     * @return Equality result of bool type
      */
     inline bool operator ==(const Range<Numeric> &rhs) const
     {

@@ -7,11 +7,18 @@
 #include <doctest/doctest.h>
 
 #include <graph2grid/tree_parse/range.h>
+#include <graph2grid/tree_parse/near_component.h>
 #include <string>
 
 using namespace zg2g;
 
 TEST_CASE("Range") {
+    SUBCASE("one value") {
+        const Range<int> range(10);
+        CHECK(range.min() == 10);
+        CHECK(range.max() == 10);
+        CHECK(range.getRandom() == 10);
+    }
     SUBCASE("min and max") {
         SUBCASE("integer") {
             const Range<int> range(10, 20);
@@ -32,7 +39,7 @@ TEST_CASE("Range") {
         constexpr int randomIterations = 100;
 
         SUBCASE("integer") {
-            Range<int> range(10, 20);
+            const Range<int> range(10, 20);
             for (int i = 0; i < randomIterations; ++i) {
                 auto random = range.getRandom();
                 CHECK(random >= 10);
@@ -40,7 +47,7 @@ TEST_CASE("Range") {
             }
         }
         SUBCASE("real") {
-            Range<double> range(5.1, 20.1);
+            const Range<double> range(5.1, 20.1);
             for (int i = 0; i < randomIterations; ++i) {
                 auto random = range.getRandom();
                 CHECK(random >= 5.1);

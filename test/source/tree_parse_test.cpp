@@ -7,9 +7,9 @@
 #include <doctest/doctest.h>
 
 #include <graph2grid/tree_parse/range.h>
-#include <graph2grid/tree_parse/near_component.h>
 #include <string>
 
+using namespace std;
 using namespace zg2g;
 
 TEST_CASE("Range") {
@@ -19,40 +19,34 @@ TEST_CASE("Range") {
         CHECK(range.max() == 10);
         CHECK(range.getRandom() == 10);
     }
-    SUBCASE("min and max") {
-        SUBCASE("integer") {
-            const Range<int> range(10, 20);
-            CHECK(range.min() == 10);
-            CHECK(range.max() == 20);
-        }
-        SUBCASE("real") {
-            const Range<double> rangeDouble(5.1, 20.1);
-            CHECK(rangeDouble.min() == 5.1);
-            CHECK(rangeDouble.max() == 20.1);
 
-            const Range<float> rangeFloat(5.1f, 20.1f);
-            CHECK(rangeFloat.min() == 5.1f);
-            CHECK(rangeFloat.max() == 20.1f);
-        }
+    const Range rangeInt(10, 20);
+    const Range rangeDouble(5.1, 20.1);
+
+    SUBCASE("min and max") {
+        CHECK(rangeInt.min() == 10);
+        CHECK(rangeInt.max() == 20);
+
+        CHECK(rangeDouble.min() == 5.1);
+        CHECK(rangeDouble.max() == 20.1);
     }
     SUBCASE("random in range") {
         constexpr int randomIterations = 100;
 
-        SUBCASE("integer") {
-            const Range<int> range(10, 20);
-            for (int i = 0; i < randomIterations; ++i) {
-                auto random = range.getRandom();
-                CHECK(random >= 10);
-                CHECK(random <= 20);
-            }
+        for (int i = 0; i < randomIterations; ++i) {
+            auto random = rangeInt.getRandom();
+            CHECK(random >= 10);
+            CHECK(random <= 20);
         }
-        SUBCASE("real") {
-            const Range<double> range(5.1, 20.1);
-            for (int i = 0; i < randomIterations; ++i) {
-                auto random = range.getRandom();
-                CHECK(random >= 5.1);
-                CHECK(random < 20.1);
-            }
+
+        for (int i = 0; i < randomIterations; ++i) {
+            auto random = rangeDouble.getRandom();
+            CHECK(random >= 5.1);
+            CHECK(random < 20.1);
         }
+    }
+    SUBCASE("equality") {
+        CHECK(rangeInt == Range{ 10, 20 });
+        CHECK(rangeDouble == Range{ 5.1, 20.1 });
     }
 }

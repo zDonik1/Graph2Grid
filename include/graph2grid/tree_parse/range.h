@@ -12,6 +12,7 @@
 
 namespace zg2g {
 
+// wrapper for std::enable_if to make it shorter
 template <typename Condition, typename Default = void>
 using EnableIf = typename std::enable_if<Condition::value, Default>::type;
 

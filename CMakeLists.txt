@@ -30,12 +30,14 @@ include(3rd/PackageProject/CMakeLists.txt)
 
 set(HEADERS
     include/graph2grid/system.h
+    include/graph2grid/tree_parse/tree_node_component.h
     include/graph2grid/tree_parse/range.h
     include/graph2grid/tree_parse/near_component.h
 )
 
 set(SOURCES
     source/system.cpp
+    source/tree_parse/tree_node_component.cpp
     source/tree_parse/near_component.cpp
 )
 

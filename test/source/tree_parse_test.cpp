@@ -54,27 +54,27 @@ TEST_CASE("Range") {
 
 TEST_CASE("NearComponent") {
     SUBCASE("normal") {
-        NearComponent nearComponent{ "SomeComponent", { 3 }, 10, 2, 20 };
+        const NearComponent nearComponent{ "SomeComponent", { 3 }, 10, 2, 20 };
         CHECK(nearComponent == NearComponent{ "SomeComponent", { 3 }, 10, 2, 20 });
     }
     SUBCASE("min distance less than 1") {
-        NearComponent nearComponent{ "SomeComponent", { 3 }, 2, 0, 20 };
+        const NearComponent nearComponent{ "SomeComponent", { 3 }, 2, 0, 20 };
         CHECK(nearComponent == NearComponent{ "SomeComponent", { 3 }, 2, 1, 20 });
     }
     SUBCASE("max distance less than min distance") {
-        NearComponent nearComponent{ "SomeComponent", { 3 }, 2, 20, 2 };
+        const NearComponent nearComponent{ "SomeComponent", { 3 }, 2, 20, 2 };
         CHECK(nearComponent == NearComponent{ "SomeComponent", { 3 }, 2, 20, 20 });
     }
     SUBCASE("max distance less than min distance") {
-        NearComponent nearComponent{ "SomeComponent", { 3 }, 2, 20, 2 };
+        const NearComponent nearComponent{ "SomeComponent", { 3 }, 2, 20, 2 };
         CHECK(nearComponent == NearComponent{ "SomeComponent", { 3 }, 20, 20, 20 });
     }
     SUBCASE("preferred distance less") {
-        NearComponent nearComponent{ "SomeComponent", { 3 }, 1, 2, 20 };
+        const NearComponent nearComponent{ "SomeComponent", { 3 }, 1, 2, 20 };
         CHECK(nearComponent == NearComponent{ "SomeComponent", { 3 }, 2, 2, 20 });
     }
     SUBCASE("preferred distance more") {
-        NearComponent nearComponent{ "SomeComponent", { 3 }, 25, 2, 20 };
+        const NearComponent nearComponent{ "SomeComponent", { 3 }, 25, 2, 20 };
         CHECK(nearComponent == NearComponent{ "SomeComponent", { 3 }, 20, 2, 20 });
     }
 }
@@ -92,13 +92,13 @@ TEST_CASE("TreeNodeComponent") {
     CHECK(component.sizes().at(1) == Size{{ 5 }, { 2, 4 }});
 
     // checking addNear and near
-    NearComponent nearComponent{ "AnotherComponent", { 3 }, 10, 2, 20 };
+    const NearComponent nearComponent{ "AnotherComponent", { 3 }, 10, 2, 20 };
     component.addNear(nearComponent);                   // l-value reference
     component.addNear({ "ThirdComponent", { 1, 4 }});   // r-value reference
 
     CHECK(component.near().at(0) == NearComponent{ "AnotherComponent", { 3 }, 10, 2, 20 });
     auto second = component.near().at(1);
-    NearComponent equivalent{ "ThirdComponent", { 1, 4 }, second.minDistance(), 1,
+    const NearComponent equivalent{ "ThirdComponent", { 1, 4 }, second.minDistance(), 1,
                             std::numeric_limits<decltype(second.maxDistance())>::max() };
     CHECK(second == equivalent);
 }

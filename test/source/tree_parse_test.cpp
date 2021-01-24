@@ -9,6 +9,7 @@
 #include <graph2grid/tree_parse/range.h>
 #include <graph2grid/tree_parse/near_component.h>
 #include <graph2grid/tree_parse/tree_node_component.h>
+#include <graph2grid/tree_parse/tree_node_system.h>
 
 using namespace std;
 using namespace zg2g;
@@ -101,4 +102,37 @@ TEST_CASE("TreeNodeComponent") {
     const NearComponent equivalent{ "ThirdComponent", { 1, 4 }, second.minDistance(), 1,
                             std::numeric_limits<decltype(second.maxDistance())>::max() };
     CHECK(second == equivalent);
+}
+
+TEST_CASE("TreeNodeSystem") {
+    SUBCASE("default range for root systems") {
+        TreeNodeSystem system("MySystem");
+        CHECK(system.name() == "MySystem");
+        CHECK(system.count() == Range{ 0, 0 });
+    }
+    SUBCASE("assigned range") {
+        TreeNodeSystem system("MySystem", Range{ 3, 5 });
+        CHECK(system.name() == "MySystem");
+        CHECK(system.count() == Range{ 3, 5 });
+    }
+    SUBCASE("addComponent and components") {
+        TreeNodeSystem system("MySystem");
+
+        SUBCASE("adding by l-value reference") {
+            auto componentPtr = make_unique<TreeNodeComponent>("SomeComponent", Range{ 3 });
+            system.addComponent(componentPtr);
+            CHECK(componentPtr.get() == nullptr); // check if moved
+
+            const auto &component = system.components().at(0);
+            CHECK(component->name() == "SomeComponent");
+            CHECK(component->count() == Range{ 3 });
+        }
+        SUBCASE("adding by r-value reference") {
+            system.addComponent(make_unique<TreeNodeSystem>("SomeSystem", Range{ 3, 4 }));
+
+            const auto &component = system.components().at(0);
+            CHECK(component->name() == "SomeSystem");
+            CHECK(component->count() == Range{ 3, 4 });
+        }
+    }
 }

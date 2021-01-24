@@ -30,6 +30,7 @@ include(3rd/PackageProject/CMakeLists.txt)
 
 set(HEADERS
     include/graph2grid/system.h
+    include/graph2grid/tree_parse/tree_node_system.h
     include/graph2grid/tree_parse/tree_node_component.h
     include/graph2grid/tree_parse/range.h
     include/graph2grid/tree_parse/near_component.h
@@ -37,6 +38,7 @@ set(HEADERS
 
 set(SOURCES
     source/system.cpp
+    source/tree_parse/tree_node_system.cpp
     source/tree_parse/tree_node_component.cpp
     source/tree_parse/near_component.cpp
 )
@@ -50,8 +52,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
 # being a cross-platform target, we enforce standards conformance on MSVC
 target_compile_options(${PROJECT_NAME} PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
-
-# Link dependencies (if required) target_link_libraries(Greeter PUBLIC cxxopts)
 
 # adding include directories for build and install
 target_include_directories(${PROJECT_NAME}

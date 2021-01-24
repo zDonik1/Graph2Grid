@@ -34,6 +34,7 @@ set(HEADERS
     include/graph2grid/tree_parse/tree_node_component.h
     include/graph2grid/tree_parse/range.h
     include/graph2grid/tree_parse/near_component.h
+    include/graph2grid/tree_parse/tree_node_system_stack.h
 )
 
 set(SOURCES
@@ -41,6 +42,7 @@ set(SOURCES
     source/tree_parse/tree_node_system.cpp
     source/tree_parse/tree_node_component.cpp
     source/tree_parse/near_component.cpp
+    source/tree_parse/tree_node_system_stack.cpp
 )
 
 # ---- Create library ----

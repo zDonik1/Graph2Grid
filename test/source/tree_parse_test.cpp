@@ -10,6 +10,7 @@
 #include <graph2grid/tree_parse/near_component.h>
 #include <graph2grid/tree_parse/tree_node_component.h>
 #include <graph2grid/tree_parse/tree_node_system.h>
+#include <graph2grid/tree_parse/tree_node_system_stack.h>
 
 using namespace std;
 using namespace zg2g;
@@ -133,6 +134,39 @@ TEST_CASE("TreeNodeSystem") {
             const auto &component = system.components().at(0);
             CHECK(component->name() == "SomeSystem");
             CHECK(component->count() == Range{ 3, 4 });
+        }
+    }
+}
+
+TEST_CASE("TreeNodeSystemStack") {
+    SUBCASE("default range for root system stacks") {
+        TreeNodeSystemStack stack("MySystemStack");
+        CHECK(stack.name() == "MySystemStack");
+        CHECK(stack.count() == Range{ 0, 0 });
+    }
+    SUBCASE("assigned range") {
+        TreeNodeSystemStack stack("MySystemStack", Range{ 3, 5 });
+        CHECK(stack.name() == "MySystemStack");
+        CHECK(stack.count() == Range{ 3, 5 });
+    }
+    SUBCASE("addSystem and systems") {
+        TreeNodeSystemStack stack("MySystemStack");
+
+        SUBCASE("adding by l-value reference") {
+            auto systemPtr = make_unique<TreeNodeSystem>("FirstSystem", Range{ 3 });
+            stack.addSystem(systemPtr);
+            CHECK(systemPtr.get() == nullptr); // check if moved
+
+            const auto &system = stack.systems().at(0);
+            CHECK(system->name() == "FirstSystem");
+            CHECK(system->count() == Range{ 3 });
+        }
+        SUBCASE("adding by r-value reference") {
+            stack.addSystem(make_unique<TreeNodeSystem>("SecondSystem", Range{ 3, 4 }));
+
+            const auto &system = stack.systems().at(0);
+            CHECK(system->name() == "SecondSystem");
+            CHECK(system->count() == Range{ 3, 4 });
         }
     }
 }

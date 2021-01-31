@@ -70,6 +70,11 @@ if(NOT TEST_INSTALLED_VERSION)
   endif()
 endif()
 
+# ---- Copying additonal files ----
+
+file(COPY city_config.ggdl
+     DESTINATION ${PROJECT_BINARY_DIR})
+
 # ---- Add Tests ----
 
 enable_testing()

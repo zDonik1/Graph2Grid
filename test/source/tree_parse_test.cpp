@@ -6,11 +6,15 @@
 
 #include <doctest/doctest.h>
 
+#include <sstream>
+#include <fstream>
+
 #include <graph2grid/tree_parse/range.h>
 #include <graph2grid/tree_parse/near_component.h>
 #include <graph2grid/tree_parse/tree_node_component.h>
 #include <graph2grid/tree_parse/tree_node_system.h>
 #include <graph2grid/tree_parse/tree_node_system_stack.h>
+#include <graph2grid/tree_parse/ggdl_lexer.h>
 
 using namespace std;
 using namespace zg2g;
@@ -166,6 +170,171 @@ TEST_CASE("TreeNodeSystemStack") {
             const auto &system = stack.systems().at(0);
             CHECK(system->name() == "SecondSystem");
             CHECK(system->count() == Range{ 3, 4 });
+        }
+    }
+}
+
+TEST_CASE("GddlLexer") {
+    SUBCASE("setStream string stream") {
+        const string str = "Component MyComponent\n   count: 1-2";
+        const vector<Token> testTable = {
+            { Token::Type::Keyword, "Component" },
+            { Token::Type::Identifier, " MyComponent" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "   count" },
+            { Token::Type::Syntax, ":" },
+            { Token::Type::Literal, " 1" },
+            { Token::Type::Syntax, "-" },
+            { Token::Type::Literal, "2" },
+            { Token::Type::Eof, "" },
+        };
+
+        auto stream = make_shared<stringstream>(str);
+        GgdlLexer lexer(stream);
+
+        SUBCASE("peek and eof") {
+            int counter = 0;
+            while (!lexer.eof()) {
+                const auto token = lexer.peek(counter);
+                CHECK(token.type == testTable.at(counter).type);
+                CHECK(token.chars == testTable.at(counter).chars);
+                ++counter;
+            }
+        }
+        SUBCASE("consume and eof") {
+            int counter = 0;
+            while (!lexer.eof()) {
+                const auto token = lexer.consume();
+                CHECK(token.type == testTable.at(counter).type);
+                CHECK(token.chars == testTable.at(counter).chars);
+                ++counter;
+            }
+        }
+        SUBCASE("peek and consume") {
+            {
+                const auto token = lexer.peek();
+                CHECK(token.type == testTable.at(0).type);
+                CHECK(token.chars == testTable.at(0).chars);
+            }
+            {
+                const auto token = lexer.consume();
+                CHECK(token.type == testTable.at(0).type);
+                CHECK(token.chars == testTable.at(0).chars);
+            }
+            {
+                const auto token = lexer.peek();
+                CHECK(token.type == testTable.at(1).type);
+                CHECK(token.chars == testTable.at(1).chars);
+            }
+        }
+        SUBCASE("operator >> and operator bool") {
+            int counter = 0;
+            Token token;
+            while (lexer >> token) {
+                CHECK(token.type == testTable.at(counter).type);
+                CHECK(token.chars == testTable.at(counter).chars);
+                ++counter;
+            }
+        }
+    }
+    SUBCASE("setStream file stream") {
+        const vector<Token> testTable = {
+            { Token::Type::Keyword, "System" },
+            { Token::Type::Identifier, " City" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\tComponent" },
+            { Token::Type::Identifier, " ResidentialBuilding" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\t\tcount" },
+            { Token::Type::Syntax, ":" },
+            { Token::Type::Literal, " 30" },
+            { Token::Type::Syntax, " -" },
+            { Token::Type::Literal, " 60" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\t\tsize" },
+            { Token::Type::Syntax, ":" },
+            { Token::Type::Syntax, " (" },
+            { Token::Type::Literal, "6" },
+            { Token::Type::Syntax, " -" },
+            { Token::Type::Literal, "10" },
+            { Token::Type::Syntax, "," },
+            { Token::Type::Literal, " 4" },
+            { Token::Type::Syntax, " -" },
+            { Token::Type::Literal, " 8" },
+            { Token::Type::Syntax, "   )" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\t\tnear" },
+            { Token::Type::Syntax, ":" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Identifier, "\t\t\tMarket" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\t\t\t\tpreferredDistance" },
+            { Token::Type::Syntax, ":" },
+            { Token::Type::Literal, " 1" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\t\t\t\tclusterCount" },
+            { Token::Type::Syntax, ":" },
+            { Token::Type::Literal, " 5" },
+            { Token::Type::Syntax, "-" },
+            { Token::Type::Literal, "10" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\tComponent" },
+            { Token::Type::Identifier, " Market" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\t\tcount" },
+            { Token::Type::Syntax, ":" },
+            { Token::Type::Literal, " 6" },
+            { Token::Type::Syntax, "\n" },
+            { Token::Type::Keyword, "\t\tsize" },
+            { Token::Type::Syntax, ":" },
+            { Token::Type::Syntax, " [" },
+            { Token::Type::Syntax, "(" },
+            { Token::Type::Literal, " 10" },
+            { Token::Type::Syntax, "," },
+            { Token::Type::Literal, "   15" },
+            { Token::Type::Syntax, ")" },
+            { Token::Type::Syntax, "," },
+            { Token::Type::Syntax, " (" },
+            { Token::Type::Literal, "6" },
+            { Token::Type::Syntax, "," },
+            { Token::Type::Literal, " 10" },
+            { Token::Type::Syntax, ")" },
+            { Token::Type::Syntax, " ]" },
+            { Token::Type::Eof, "" },
+        };
+
+        auto stream = make_shared<ifstream>("city_config.ggdl");
+        REQUIRE(stream->is_open());
+
+        GgdlLexer lexer(stream);
+
+        SUBCASE("peek and eof") {
+            int counter = 0;
+            while (!lexer.eof()) {
+                const auto token = lexer.peek(counter);
+                CHECK(token.type == testTable.at(counter).type);
+                CHECK(token.chars == testTable.at(counter).chars);
+                ++counter;
+            }
+        }
+        SUBCASE("consume and eof") {
+            int counter = 0;
+            while (!lexer.eof()) {
+                const auto token = lexer.consume();
+                CHECK(token.type == testTable.at(counter).type);
+                CHECK(token.chars == testTable.at(counter).chars);
+                ++counter;
+            }
+        }
+        SUBCASE("operator >> and operator bool") {
+            int counter = 0;
+            Token token;
+            while (lexer >> token) {
+                CHECK(token.type == testTable.at(counter).type);
+                CHECK(token.chars == testTable.at(counter).chars);
+                ++counter;
+            }
         }
     }
 }

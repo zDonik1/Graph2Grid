@@ -26,14 +26,9 @@ TreeNodeSystem::TreeNodeSystem(const string &name, const Range<int> &count)
 {
 }
 
-void TreeNodeSystem::addComponent(std::unique_ptr<TreeNodeComponent> &component)
+void TreeNodeSystem::addComponent(unique_ptr<TreeNodeComponent> component)
 {
-    addComponent(move(component));
-}
-
-void TreeNodeSystem::addComponent(std::unique_ptr<TreeNodeComponent> &&component)
-{
-    impl->components.emplace_back(move(component));
+     impl->components.emplace_back(move(component));
 }
 
 const Components &TreeNodeSystem::components() const

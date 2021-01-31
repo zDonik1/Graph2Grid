@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include <spimpl.h>
 
 namespace zg2g {

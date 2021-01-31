@@ -119,16 +119,15 @@ TEST_CASE("TreeNodeSystem") {
     SUBCASE("addComponent and components") {
         TreeNodeSystem system("MySystem");
 
-        SUBCASE("adding by l-value reference") {
+        SUBCASE("adding component by l-value reference") {
             auto componentPtr = make_unique<TreeNodeComponent>("SomeComponent", Range{ 3 });
-            system.addComponent(componentPtr);
-            CHECK(componentPtr.get() == nullptr); // check if moved
+            system.addComponent(move(componentPtr));
 
             const auto &component = system.components().at(0);
             CHECK(component->name() == "SomeComponent");
             CHECK(component->count() == Range{ 3 });
         }
-        SUBCASE("adding by r-value reference") {
+        SUBCASE("adding system by r-value reference") {
             system.addComponent(make_unique<TreeNodeSystem>("SomeSystem", Range{ 3, 4 }));
 
             const auto &component = system.components().at(0);

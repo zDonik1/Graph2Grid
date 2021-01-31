@@ -25,8 +25,7 @@ class TreeNodeSystem : public TreeNodeComponent
 public:
     TreeNodeSystem(const std::string &name, const Range<int> &count = { 0, 0 });
 
-    void addComponent(std::unique_ptr<TreeNodeComponent> &component);
-    void addComponent(std::unique_ptr<TreeNodeComponent> &&component);
+    void addComponent(std::unique_ptr<TreeNodeComponent> component);
 
     const Components &components() const;
 };

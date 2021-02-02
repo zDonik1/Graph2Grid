@@ -20,6 +20,7 @@ struct Token
 public:
     Type type;
     std::string chars;
+    int indent = -1;
 };
 
 class GgdlLexer

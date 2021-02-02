@@ -176,17 +176,17 @@ TEST_CASE("TreeNodeSystemStack") {
 
 TEST_CASE("GddlLexer") {
     SUBCASE("setStream string stream") {
-        const string str = "Component MyComponent\n   count: 1-2";
+        const string str = "Component MyComponent\n    count: 1-2";
         const vector<Token> testTable = {
-            { Token::Type::Keyword, "Component" },
-            { Token::Type::Identifier, " MyComponent" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "   count" },
-            { Token::Type::Syntax, ":" },
-            { Token::Type::Literal, " 1" },
-            { Token::Type::Syntax, "-" },
-            { Token::Type::Literal, "2" },
-            { Token::Type::Eof, "" },
+            { Token::Type::Keyword,    "Component",    0 },
+            { Token::Type::Identifier, "MyComponent", -1 },
+            { Token::Type::Syntax,     "\n",          -1 },
+            { Token::Type::Keyword,    "count",        1 },
+            { Token::Type::Syntax,     ":",           -1 },
+            { Token::Type::Literal,    "1",           -1 },
+            { Token::Type::Syntax,     "-",           -1 },
+            { Token::Type::Literal,    "2",           -1 },
+            { Token::Type::Eof,        "",            -1 },
         };
 
         auto stream = make_shared<stringstream>(str);
@@ -198,6 +198,7 @@ TEST_CASE("GddlLexer") {
                 const auto token = lexer.peek(counter);
                 CHECK(token.type == testTable.at(counter).type);
                 CHECK(token.chars == testTable.at(counter).chars);
+                CHECK(token.indent == testTable.at(counter).indent);
                 ++counter;
             }
         }
@@ -207,6 +208,7 @@ TEST_CASE("GddlLexer") {
                 const auto token = lexer.consume();
                 CHECK(token.type == testTable.at(counter).type);
                 CHECK(token.chars == testTable.at(counter).chars);
+                CHECK(token.indent == testTable.at(counter).indent);
                 ++counter;
             }
         }
@@ -215,16 +217,19 @@ TEST_CASE("GddlLexer") {
                 const auto token = lexer.peek();
                 CHECK(token.type == testTable.at(0).type);
                 CHECK(token.chars == testTable.at(0).chars);
+                CHECK(token.indent == testTable.at(0).indent);
             }
             {
                 const auto token = lexer.consume();
                 CHECK(token.type == testTable.at(0).type);
                 CHECK(token.chars == testTable.at(0).chars);
+                CHECK(token.indent == testTable.at(0).indent);
             }
             {
                 const auto token = lexer.peek();
                 CHECK(token.type == testTable.at(1).type);
                 CHECK(token.chars == testTable.at(1).chars);
+                CHECK(token.indent == testTable.at(1).indent);
             }
         }
         SUBCASE("operator >> and operator bool") {
@@ -233,75 +238,77 @@ TEST_CASE("GddlLexer") {
             while (lexer >> token) {
                 CHECK(token.type == testTable.at(counter).type);
                 CHECK(token.chars == testTable.at(counter).chars);
+                CHECK(token.indent == testTable.at(counter).indent);
                 ++counter;
             }
         }
     }
     SUBCASE("setStream file stream") {
         const vector<Token> testTable = {
-            { Token::Type::Keyword, "System" },
-            { Token::Type::Identifier, " City" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\tComponent" },
-            { Token::Type::Identifier, " ResidentialBuilding" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\t\tcount" },
-            { Token::Type::Syntax, ":" },
-            { Token::Type::Literal, " 30" },
-            { Token::Type::Syntax, " -" },
-            { Token::Type::Literal, " 60" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\t\tsize" },
-            { Token::Type::Syntax, ":" },
-            { Token::Type::Syntax, " (" },
-            { Token::Type::Literal, "6" },
-            { Token::Type::Syntax, " -" },
-            { Token::Type::Literal, "10" },
-            { Token::Type::Syntax, "," },
-            { Token::Type::Literal, " 4" },
-            { Token::Type::Syntax, " -" },
-            { Token::Type::Literal, " 8" },
-            { Token::Type::Syntax, "   )" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\t\tnear" },
-            { Token::Type::Syntax, ":" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Identifier, "\t\t\tMarket" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\t\t\t\tpreferredDistance" },
-            { Token::Type::Syntax, ":" },
-            { Token::Type::Literal, " 1" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\t\t\t\tclusterCount" },
-            { Token::Type::Syntax, ":" },
-            { Token::Type::Literal, " 5" },
-            { Token::Type::Syntax, "-" },
-            { Token::Type::Literal, "10" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\tComponent" },
-            { Token::Type::Identifier, " Market" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\t\tcount" },
-            { Token::Type::Syntax, ":" },
-            { Token::Type::Literal, " 6" },
-            { Token::Type::Syntax, "\n" },
-            { Token::Type::Keyword, "\t\tsize" },
-            { Token::Type::Syntax, ":" },
-            { Token::Type::Syntax, " [" },
-            { Token::Type::Syntax, "(" },
-            { Token::Type::Literal, " 10" },
-            { Token::Type::Syntax, "," },
-            { Token::Type::Literal, "   15" },
-            { Token::Type::Syntax, ")" },
-            { Token::Type::Syntax, "," },
-            { Token::Type::Syntax, " (" },
-            { Token::Type::Literal, "6" },
-            { Token::Type::Syntax, "," },
-            { Token::Type::Literal, " 10" },
-            { Token::Type::Syntax, ")" },
-            { Token::Type::Syntax, " ]" },
-            { Token::Type::Eof, "" },
+            { Token::Type::Keyword,    "System",               0 },
+            { Token::Type::Identifier, "City",                -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "Component",            1 },
+            { Token::Type::Identifier, "ResidentialBuilding", -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "count",                2 },
+            { Token::Type::Syntax,     ":",                   -1 },
+            { Token::Type::Literal,    "30",                  -1 },
+            { Token::Type::Syntax,     "-",                   -1 },
+            { Token::Type::Literal,    "60",                  -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "size",                 2 },
+            { Token::Type::Syntax,     ":",                   -1 },
+            { Token::Type::Syntax,     "(",                   -1 },
+            { Token::Type::Literal,    "6",                   -1 },
+            { Token::Type::Syntax,     "-",                   -1 },
+            { Token::Type::Literal,    "10",                  -1 },
+            { Token::Type::Syntax,     ",",                   -1 },
+            { Token::Type::Literal,    "4",                   -1 },
+            { Token::Type::Syntax,     "-",                   -1 },
+            { Token::Type::Literal,    "8",                   -1 },
+            { Token::Type::Syntax,     ")",                   -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "near",                 2 },
+            { Token::Type::Syntax,     ":",                   -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Identifier, "Market",               3 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "preferredDistance",    4 },
+            { Token::Type::Syntax,     ":",                   -1 },
+            { Token::Type::Literal,    "1",                   -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "clusterCount",         4 },
+            { Token::Type::Syntax,     ":",                   -1 },
+            { Token::Type::Literal,    "5",                   -1 },
+            { Token::Type::Syntax,     "-",                   -1 },
+            { Token::Type::Literal,    "10",                  -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "Component",            1 },
+            { Token::Type::Identifier, "Market",              -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "count",                2 },
+            { Token::Type::Syntax,     ":",                   -1 },
+            { Token::Type::Literal,    "6",                   -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Keyword,    "size",                 2 },
+            { Token::Type::Syntax,     ":",                   -1 },
+            { Token::Type::Syntax,     "[",                   -1 },
+            { Token::Type::Syntax,     "(",                   -1 },
+            { Token::Type::Literal,    "10",                  -1 },
+            { Token::Type::Syntax,     ",",                   -1 },
+            { Token::Type::Literal,    "15",                  -1 },
+            { Token::Type::Syntax,     ")",                   -1 },
+            { Token::Type::Syntax,     ",",                   -1 },
+            { Token::Type::Syntax,     "(",                   -1 },
+            { Token::Type::Literal,    "6",                   -1 },
+            { Token::Type::Syntax,     ",",                   -1 },
+            { Token::Type::Literal,    "10",                  -1 },
+            { Token::Type::Syntax,     ")",                   -1 },
+            { Token::Type::Syntax,     "]",                   -1 },
+            { Token::Type::Syntax,     "\n",                  -1 },
+            { Token::Type::Eof,        "",                    -1 },
         };
 
         auto stream = make_shared<ifstream>("city_config.ggdl");
@@ -315,6 +322,7 @@ TEST_CASE("GddlLexer") {
                 const auto token = lexer.peek(counter);
                 CHECK(token.type == testTable.at(counter).type);
                 CHECK(token.chars == testTable.at(counter).chars);
+                CHECK(token.indent == testTable.at(counter).indent);
                 ++counter;
             }
         }
@@ -324,6 +332,7 @@ TEST_CASE("GddlLexer") {
                 const auto token = lexer.consume();
                 CHECK(token.type == testTable.at(counter).type);
                 CHECK(token.chars == testTable.at(counter).chars);
+                CHECK(token.indent == testTable.at(counter).indent);
                 ++counter;
             }
         }
@@ -333,6 +342,7 @@ TEST_CASE("GddlLexer") {
             while (lexer >> token) {
                 CHECK(token.type == testTable.at(counter).type);
                 CHECK(token.chars == testTable.at(counter).chars);
+                CHECK(token.indent == testTable.at(counter).indent);
                 ++counter;
             }
         }

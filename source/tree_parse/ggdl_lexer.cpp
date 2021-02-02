@@ -18,7 +18,7 @@ using namespace zg2g;
 
 inline bool isWhitespace(char c)
 {
-    return c == ' ' || c == '\t';
+    return c == ' ';
 }
 
 inline bool isUpperLetter(char c)
@@ -48,11 +48,23 @@ struct GgdlLexer::PImpl
     shared_ptr<istream> stream;
     queue<Token> tokens; // tokens buffer for peeking
     bool isEof = false;
+    bool isNewline = true;
+
+public:
+    static constexpr int indentSpacing = 4; // 4 spaces = 1 indent level
 
 public:
     PImpl(shared_ptr<istream> stream)
         : stream(stream)
     {
+        init();
+    }
+
+    inline void init()
+    {
+        queue<Token>().swap(tokens); // clearing tokens
+        isEof = false;
+        isNewline = true;
     }
 
     inline bool eof() const
@@ -82,7 +94,7 @@ public:
         };
 
         return any_of(cbegin(keywords), cend(keywords), [chars](const string_view &keyword)
-        { return chars.substr(chars.find_first_not_of(" \t")) == keyword; });
+        { return chars == keyword; });
     }
 
     Token tokenize()
@@ -96,7 +108,9 @@ public:
         }
 
         char c;
-        bool isWhitespaced = false; // leading whitespace appended or not
+        int whitespaces = 0;
+        bool isWhitespaced = false; // leading whitespaces counted or not
+        bool isSyntax = false;
         bool isFirstChar = true;
         bool hasDigits = false;
         bool onlyDigits = true;
@@ -115,7 +129,8 @@ public:
 
             if (isWhitespace(c)) {
                 if (!isWhitespaced) {
-                    pushIntoToken(c, token);
+                    ++whitespaces;
+                    stream->ignore();
                 } else {
                     break;
                 }
@@ -129,9 +144,9 @@ public:
                     onlyDigits = false;
                     pushIntoToken(c, token);
                 } else if (isFirstChar) { // only handles 1 character syntax chars
+                    isSyntax = true;
                     pushIntoToken(c, token);
-                    token.type = Token::Type::Syntax;
-                    return token;
+                    break;
                 } else { // syntax met after keyword/identifier/literal
                     break;
                 }
@@ -140,12 +155,23 @@ public:
             }
         }
 
-        if (onlyDigits) {
+        if (isSyntax) {
+            token.type = Token::Type::Syntax;
+            if (token.chars == "\n") {
+                isNewline = true;
+                return token;
+            }
+        } else if (onlyDigits) {
             token.type = Token::Type::Literal;
         } else if (isKeyword(token.chars)) {
             token.type = Token::Type::Keyword;
         } else {
             token.type = Token::Type::Identifier;
+        }
+
+        if (isNewline) {
+            token.indent = whitespaces / indentSpacing;
+            isNewline = false;
         }
 
         return token;
@@ -159,8 +185,8 @@ GgdlLexer::GgdlLexer(shared_ptr<istream> stream)
 
 void GgdlLexer::setStream(shared_ptr<istream> stream)
 {
-    impl->isEof = false;
     impl->stream = stream;
+    impl->init();
 }
 
 Token &GgdlLexer::peek(int tokenNumber)

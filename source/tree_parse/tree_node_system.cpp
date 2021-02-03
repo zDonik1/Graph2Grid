@@ -26,6 +26,12 @@ TreeNodeSystem::TreeNodeSystem(const string &name, const Range<int> &count)
 {
 }
 
+TreeNodeSystem::TreeNodeSystem(string &&name, const Range<int> &count)
+    : TreeNodeComponent(move(name), count)
+    , impl(make_unique_impl<PImpl>())
+{
+}
+
 void TreeNodeSystem::addComponent(unique_ptr<TreeNodeComponent> component)
 {
      impl->components.emplace_back(move(component));

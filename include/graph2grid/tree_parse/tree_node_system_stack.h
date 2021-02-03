@@ -24,10 +24,10 @@ class TreeNodeSystemStack : public TreeNodeComponent
     spimpl::unique_impl_ptr<PImpl> impl;
 
 public:
-    TreeNodeSystemStack(const std::string &name, const Range<int> &count = { 0, 0 });
+    TreeNodeSystemStack(const std::string &name, const Range<int> &count = {});
+    TreeNodeSystemStack(std::string &&name = "", const Range<int> &count = {});
 
-    void addSystem(std::unique_ptr<TreeNodeSystem> &system);
-    void addSystem(std::unique_ptr<TreeNodeSystem> &&system);
+    void addSystem(std::unique_ptr<TreeNodeSystem> system);
 
     const Systems &systems() const;
 };

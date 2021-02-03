@@ -26,12 +26,13 @@ TreeNodeSystemStack::TreeNodeSystemStack(const string &name, const Range<int> &c
 {
 }
 
-void TreeNodeSystemStack::addSystem(std::unique_ptr<TreeNodeSystem> &system)
+TreeNodeSystemStack::TreeNodeSystemStack(string &&name, const Range<int> &count)
+    : TreeNodeComponent(move(name), count)
+    , impl(make_unique_impl<PImpl>())
 {
-    addSystem(move(system));
 }
 
-void TreeNodeSystemStack::addSystem(std::unique_ptr<TreeNodeSystem> &&system)
+void TreeNodeSystemStack::addSystem(std::unique_ptr<TreeNodeSystem> system)
 {
     impl->systems.emplace_back(move(system));
 }

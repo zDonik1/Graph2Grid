@@ -23,7 +23,8 @@ class TreeNodeSystem : public TreeNodeComponent
     spimpl::unique_impl_ptr<PImpl> impl;
 
 public:
-    TreeNodeSystem(const std::string &name, const Range<int> &count = { 0, 0 });
+    TreeNodeSystem(const std::string &name, const Range<int> &count = {});
+    TreeNodeSystem(std::string &&name = "", const Range<int> &count = {});
 
     void addComponent(std::unique_ptr<TreeNodeComponent> component);
 

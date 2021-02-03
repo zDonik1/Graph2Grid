@@ -115,27 +115,43 @@ TEST_CASE("NearComponent") {
 }
 
 TEST_CASE("TreeNodeComponent") {
-    // checking name and count
-    TreeNodeComponent component("MyNewComponent", { 10, 60 });
-    CHECK(component.name() == "MyNewComponent");
-    CHECK(component.count() == Range{ 10, 60 });
+    SUBCASE("default constructor") {
+        TreeNodeComponent component;
+        CHECK(component.name() == "");
+        CHECK(component.count() == Range{ 0, 0 });
+    }
+    SUBCASE("default range") {
+        TreeNodeComponent component("MyComponent");
+        CHECK(component.name() == "MyComponent");
+        CHECK(component.count() == Range{ 0, 0 });
+    }
+    SUBCASE("setters") {
+        TreeNodeComponent component;
 
-    // checking addSize and sizes
-    component.addSize({{ 10, 20 }, { 10 }});
-    component.addSize({{ 5 }, { 2, 4 }});
-    CHECK(component.sizes().at(0) == Size{{ 10, 20 }, { 10 }});
-    CHECK(component.sizes().at(1) == Size{{ 5 }, { 2, 4 }});
+        // checking name and count
+        component.setName("MyNewComponent");
+        CHECK(component.name() == "MyNewComponent");
 
-    // checking addNear and near
-    const NearComponent nearComponent{ "AnotherComponent", { 3 }, 10, 2, 20 };
-    component.addNear(nearComponent);                   // l-value reference
-    component.addNear({ "ThirdComponent", { 1, 4 }});   // r-value reference
+        component.setCount({ 10, 60 });
+        CHECK(component.count() == Range{ 10, 60 });
 
-    CHECK(component.near().at(0) == NearComponent{ "AnotherComponent", { 3 }, 10, 2, 20 });
-    auto second = component.near().at(1);
-    const NearComponent equivalent{ "ThirdComponent", { 1, 4 }, second.minDistance(), 1,
-                            std::numeric_limits<decltype(second.maxDistance())>::max() };
-    CHECK(second == equivalent);
+        // checking addSize and sizes
+        component.addSize({{ 10, 20 }, { 10 }});
+        component.addSize({{ 5 }, { 2, 4 }});
+        CHECK(component.sizes().at(0) == Size{{ 10, 20 }, { 10 }});
+        CHECK(component.sizes().at(1) == Size{{ 5 }, { 2, 4 }});
+
+        // checking addNear and near
+        const NearComponent nearComponent{ "AnotherComponent", { 3 }, 10, 2, 20 };
+        component.addNear(nearComponent);                   // l-value reference
+        component.addNear({ "ThirdComponent", { 1, 4 }});   // r-value reference
+
+        CHECK(component.near().at(0) == NearComponent{ "AnotherComponent", { 3 }, 10, 2, 20 });
+        auto second = component.near().at(1);
+        const NearComponent equivalent{ "ThirdComponent", { 1, 4 }, second.minDistance(), 1,
+                    std::numeric_limits<decltype(second.maxDistance())>::max() };
+        CHECK(second == equivalent);
+    }
 }
 
 TEST_CASE("TreeNodeSystem") {
@@ -184,22 +200,17 @@ TEST_CASE("TreeNodeSystemStack") {
     SUBCASE("addSystem and systems") {
         TreeNodeSystemStack stack("MySystemStack");
 
-        SUBCASE("adding by l-value reference") {
-            auto systemPtr = make_unique<TreeNodeSystem>("FirstSystem", Range{ 3 });
-            stack.addSystem(systemPtr);
-            CHECK(systemPtr.get() == nullptr); // check if moved
-
-            const auto &system = stack.systems().at(0);
-            CHECK(system->name() == "FirstSystem");
-            CHECK(system->count() == Range{ 3 });
+        SUBCASE("adding system by l-value reference") {
+            auto systemPtr = make_unique<TreeNodeSystem>("MySystem", Range{ 3 });
+            stack.addSystem(move(systemPtr));
         }
-        SUBCASE("adding by r-value reference") {
-            stack.addSystem(make_unique<TreeNodeSystem>("SecondSystem", Range{ 3, 4 }));
-
-            const auto &system = stack.systems().at(0);
-            CHECK(system->name() == "SecondSystem");
-            CHECK(system->count() == Range{ 3, 4 });
+        SUBCASE("adding system by r-value reference") {
+            stack.addSystem(make_unique<TreeNodeSystem>("MySystem", Range{ 3 }));
         }
+
+        const auto &system = stack.systems().at(0);
+        CHECK(system->name() == "MySystem");
+        CHECK(system->count() == Range{ 3 });
     }
 }
 

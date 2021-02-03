@@ -36,12 +36,13 @@ class TreeNodeComponent
     spimpl::impl_ptr<PImpl> impl;
 
 public:
-    /**
-     * @brief Constructs a tree node component with name and count
-     * @param name std::string to be saved as component name
-     * @param count Range<int> to be saved as count of instances of this component
-     */
-    TreeNodeComponent(const std::string &name, const Range<int> &count);
+    TreeNodeComponent(const std::string &name, const Range<int> &count = {});
+    TreeNodeComponent(std::string &&name = "", const Range<int> &count = {});
+
+    void setName(const std::string &name);
+    void setName(std::string &&name);
+
+    void setCount(const Range<int> &count);
 
     /**
      * @brief Adds a size paramter to the component

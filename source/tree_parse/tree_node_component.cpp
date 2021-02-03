@@ -16,7 +16,7 @@ using namespace zg2g;
 struct TreeNodeComponent::PImpl
 {
     string name;
-    const Range<int> count;
+    Range<int> count;
     Sizes sizes;
     vector<NearComponent> near;
 
@@ -26,11 +26,37 @@ public:
         , count(_count)
     {
     }
+
+    PImpl(string &&_name, const Range<int> &_count)
+        : name(move(_name))
+        , count(_count)
+    {
+    }
 };
 
 TreeNodeComponent::TreeNodeComponent(const string &name, const Range<int> &count)
     : impl(make_impl<PImpl>(name, count))
 {
+}
+
+TreeNodeComponent::TreeNodeComponent(string &&name, const Range<int> &count)
+    : impl(make_impl<PImpl>(move(name), count))
+{
+}
+
+void TreeNodeComponent::setName(const string &name)
+{
+    impl->name = name;
+}
+
+void TreeNodeComponent::setName(string &&name)
+{
+    impl->name = move(name);
+}
+
+void TreeNodeComponent::setCount(const Range<int> &count)
+{
+    impl->count = count;
 }
 
 void TreeNodeComponent::addSize(const Size &size)

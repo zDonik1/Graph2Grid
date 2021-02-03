@@ -20,41 +20,58 @@ using namespace std;
 using namespace zg2g;
 
 TEST_CASE("Range") {
+    SUBCASE("default value") {
+        const Range<int> rangeInt;
+        const Range<double> rangeDouble;
+
+        CHECK(rangeInt.min() == 0);
+        CHECK(rangeInt.max() == 0);
+
+        CHECK(rangeDouble.min() == 0.0);
+        CHECK(rangeDouble.max() == 0.0);
+    }
     SUBCASE("one value") {
-        const Range range(10);
-        CHECK(range.min() == 10);
-        CHECK(range.max() == 10);
-        CHECK(range.getRandom() == 10);
-    }
+        const Range rangeInt(10);
+        const Range rangeDouble(10.5);
 
-    const Range rangeInt(10, 20);
-    const Range rangeDouble(5.1, 20.1);
-
-    SUBCASE("min and max") {
         CHECK(rangeInt.min() == 10);
-        CHECK(rangeInt.max() == 20);
+        CHECK(rangeInt.max() == 10);
+        CHECK(rangeInt.getRandom() == 10);
 
-        CHECK(rangeDouble.min() == 5.1);
-        CHECK(rangeDouble.max() == 20.1);
+        CHECK(rangeDouble.min() == 10.5);
+        CHECK(rangeDouble.max() == 10.5);
+        CHECK(rangeDouble.getRandom() == 10.5);
     }
-    SUBCASE("random in range") {
-        constexpr int randomIterations = 100;
+    SUBCASE("two values") {
+        const Range rangeInt(10, 20);
+        const Range rangeDouble(5.1, 20.1);
 
-        for (int i = 0; i < randomIterations; ++i) {
-            auto random = rangeInt.getRandom();
-            CHECK(random >= 10);
-            CHECK(random <= 20);
-        }
+        SUBCASE("min and max") {
+            CHECK(rangeInt.min() == 10);
+            CHECK(rangeInt.max() == 20);
 
-        for (int i = 0; i < randomIterations; ++i) {
-            auto random = rangeDouble.getRandom();
-            CHECK(random >= 5.1);
-            CHECK(random < 20.1);
+            CHECK(rangeDouble.min() == 5.1);
+            CHECK(rangeDouble.max() == 20.1);
         }
-    }
-    SUBCASE("equality") {
-        CHECK(rangeInt == Range{ 10, 20 });
-        CHECK(rangeDouble == Range{ 5.1, 20.1 });
+        SUBCASE("random in range") {
+            constexpr int randomIterations = 100;
+
+            for (int i = 0; i < randomIterations; ++i) {
+                auto random = rangeInt.getRandom();
+                CHECK(random >= 10);
+                CHECK(random <= 20);
+            }
+
+            for (int i = 0; i < randomIterations; ++i) {
+                auto random = rangeDouble.getRandom();
+                CHECK(random >= 5.1);
+                CHECK(random < 20.1);
+            }
+        }
+        SUBCASE("equality") {
+            CHECK(rangeInt == Range{ 10, 20 });
+            CHECK(rangeDouble == Range{ 5.1, 20.1 });
+        }
     }
 }
 

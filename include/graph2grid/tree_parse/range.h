@@ -40,28 +40,17 @@ private:
 
 public:
     /**
-     * @brief Constructor for one number
-     * @param num Integer to be saved in range
-     *
-     * Ranges can hold a single number, which works as if it was just a number.
-     * Note: Ranges can hold one number only if it is of integral type!
-     */
-    template<typename = EnableIf<std::is_integral<Numeric>>>
-    Range(Numeric num)
-        : m_min(num)
-        , m_max(num)
-    {
-    }
-
-    /**
      * @brief Constructor for min and max in range
      * @param min Numeric to be saved as minimum of range
      * @param max Numeric to be saved as maximum of range
      */
-    Range(Numeric min, Numeric max)
+    Range(Numeric min = 0, Numeric max = 0)
         : m_min(min)
         , m_max(max)
     {
+        if (m_max < m_min) {
+            m_max = m_min;
+        }
     }
 
     /**

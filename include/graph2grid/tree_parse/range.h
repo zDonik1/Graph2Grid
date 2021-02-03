@@ -62,7 +62,7 @@ public:
      */
     template<IntSpecialization dummy = intDummy,
              typename Integral = NumericEnableIf<std::is_integral<Numeric>>>
-    inline Integral getRandom() const
+    inline auto getRandom() const
     {
         if (m_min == m_max) {
             return m_min;
@@ -82,7 +82,7 @@ public:
      */
     template<FloatSpecialization dummy = floatDummy,
              typename Real = NumericEnableIf<std::is_floating_point<Numeric>>>
-    inline Real getRandom() const
+    inline auto getRandom() const
     {
         std::default_random_engine generator;
         std::uniform_real_distribution<Real> distribution(m_min, m_max);
@@ -93,7 +93,7 @@ public:
      * @brief Returns minimum value in range
      * @return Minimum of range of Numeric type
      */
-    inline Numeric min() const
+    inline auto min() const
     {
         return m_min;
     }
@@ -102,7 +102,7 @@ public:
      * @brief Returns maximum value in range
      * @return Maximum of range of Numeric type
      */
-    inline Numeric max() const
+    inline auto max() const
     {
         return m_max;
     }
@@ -112,12 +112,12 @@ public:
      * @param rhs Range on the right hand side of == operator
      * @return Equality result of bool type
      */
-    inline bool operator ==(const Range<Numeric> &rhs) const
+    inline auto operator ==(const Range<Numeric> &rhs) const
     {
         return m_min == rhs.min() && m_max == rhs.max();
     }
 
-    inline Range &operator =(const Range<Numeric> &rhs)
+    inline auto &operator =(const Range<Numeric> &rhs)
     {
         m_min = rhs.min();
         m_max = rhs.max();

@@ -73,6 +73,18 @@ TEST_CASE("Range") {
             CHECK(rangeDouble == Range{ 5.1, 20.1 });
         }
     }
+    SUBCASE("assignment") {
+        Range<int> rangeInt;
+        Range<double> rangeDouble;
+
+        rangeInt = { 1, 2 };
+        CHECK(rangeInt.min() == 1);
+        CHECK(rangeInt.max() == 2);
+
+        rangeDouble = { 1.1, 2.2 };
+        CHECK(rangeDouble.min() == 1.1);
+        CHECK(rangeDouble.max() == 2.2);
+    }
 }
 
 TEST_CASE("NearComponent") {

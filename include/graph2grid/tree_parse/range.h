@@ -116,6 +116,13 @@ public:
     {
         return m_min == rhs.min() && m_max == rhs.max();
     }
+
+    inline Range &operator =(const Range<Numeric> &rhs)
+    {
+        m_min = rhs.min();
+        m_max = rhs.max();
+        return *this;
+    }
 };
 
 } // namespace zg2g

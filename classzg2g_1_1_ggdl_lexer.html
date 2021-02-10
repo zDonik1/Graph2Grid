@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Greeter</title>
+  <title>zg2g::GgdlLexer class | Greeter</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -30,7 +30,7 @@
                 <li><a href="about.html">About</a></li>
               </ol>
             </li>
-            <li><a href="namespaces.html" id="m-navbar-current">Namespaces</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
             <li><a href="annotated.html">Classes</a></li>
@@ -48,26 +48,61 @@
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Namespaces</h1>
-        <ul class="m-doc">
-          <li>namespace <a href="namespacezg2g.html" class="m-doc">zg2g</a> <span class="m-doc"><span></span></span></li>
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-doc-collapsible' ?
-                'm-doc-expansible' : 'm-doc-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of
-           directly in markup so disabling it doesn't harm usability. The list
-           is somehow regenerated on every iteration and shrinks as I change
-           the classes. It's not documented anywhere and I'm not sure if this
-           is the same across browsers, so I am going backwards in that list to
-           be sure. */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-doc-expansible';
-        </script>
+        <h1>
+          <span class="m-breadcrumb"><a href="namespacezg2g.html">zg2g</a>::<wbr/></span>GgdlLexer <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="ggdl__lexer_8h.html">&lt;graph2grid/tree_parse/ggdl_lexer.h&gt;</a></div>
+        </h1>
+        <p><span></span></p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="aa9bc6c7b39e54dacdcb81d2b46b3255c">
+              <span class="m-doc-wrap-bumper"><a href="#aa9bc6c7b39e54dacdcb81d2b46b3255c" class="m-doc-self">GgdlLexer</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;std::istream&gt; stream) <span class="m-label m-flat m-info">explicit</span> </span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a19c0a4deaedbb9c75f0731b819ce7614">
+              <span class="m-doc-wrap-bumper"><a href="#a19c0a4deaedbb9c75f0731b819ce7614" class="m-doc-self">operator bool</a>(</span><span class="m-doc-wrap">) const</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a121f5d3ef24901fd2ed548f357565871">
+              <span class="m-doc-wrap-bumper">void <a href="#a121f5d3ef24901fd2ed548f357565871" class="m-doc-self">setStream</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;std::istream&gt; stream)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a5716ebf9a4d26600c93e3cb81be89cdc">
+              <span class="m-doc-wrap-bumper">auto <a href="#a5716ebf9a4d26600c93e3cb81be89cdc" class="m-doc-self">peek</a>(</span><span class="m-doc-wrap">int tokenNumber = 0) -&gt; <a href="structzg2g_1_1_token.html" class="m-doc">Token</a>&amp;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad2924e034b8c7f15ba1e4811d68a90ae">
+              <span class="m-doc-wrap-bumper">auto <a href="#ad2924e034b8c7f15ba1e4811d68a90ae" class="m-doc-self">consume</a>(</span><span class="m-doc-wrap">) -&gt; <a href="structzg2g_1_1_token.html" class="m-doc">Token</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ab3ce0584e9f30214f5df3f6aca2bd8a7">
+              <span class="m-doc-wrap-bumper">auto <a href="#ab3ce0584e9f30214f5df3f6aca2bd8a7" class="m-doc-self">operator&gt;&gt;</a>(</span><span class="m-doc-wrap"><a href="structzg2g_1_1_token.html" class="m-doc">Token</a>&amp; token) -&gt; <a href="classzg2g_1_1_ggdl_lexer.html" class="m-doc">GgdlLexer</a>&amp;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a375411b09a5d7c9d11ee869441446d0c">
+              <span class="m-doc-wrap-bumper">auto <a href="#a375411b09a5d7c9d11ee869441446d0c" class="m-doc-self">eof</a>(</span><span class="m-doc-wrap">) const -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>

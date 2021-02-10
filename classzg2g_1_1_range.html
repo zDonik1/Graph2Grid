@@ -71,13 +71,8 @@
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename = <a href="namespacezg2g.html#a40132c484f6fcc543e7a36e4115efbed" class="m-doc">EnableIf</a>&lt;std::is_integral&lt;Numeric&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper"><a href="#a07d84fecd05ba8330e88f37ff08aebd0" class="m-doc">Range</a>(</span><span class="m-doc-wrap">Numeric num)</span>
-            </dt>
-            <dd>Constructor for one number.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a href="#a5ce96c8dcd023dad9fa2d79bcbb62faf" class="m-doc">Range</a>(</span><span class="m-doc-wrap">Numeric min,
-              Numeric max)</span>
+              <span class="m-doc-wrap-bumper"><a href="#abf43a429be48fca72183f333645455fb" class="m-doc">Range</a>(</span><span class="m-doc-wrap">Numeric min = 0,
+              Numeric max = 0)</span>
             </dt>
             <dd>Constructor for min and max in range.</dd>
           </dl>
@@ -87,59 +82,41 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;IntSpecialization dummy = intDummy, typename Integral = NumericEnableIf&lt;std::is_integral&lt;Numeric&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a2ceeb5eb047a5aba6ba049fb5b1a70bc" class="m-doc">getRandom</a>(</span><span class="m-doc-wrap">) const -&gt; Integral</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a059176266ae8536af1bbbb36ea75bcbd" class="m-doc">getRandom</a>(</span><span class="m-doc-wrap">) const -&gt; auto</span>
             </dt>
             <dd>Returns a random number in range.</dd>
             <dt>
               <div class="m-doc-template">template&lt;FloatSpecialization dummy = floatDummy, typename Real = NumericEnableIf&lt;std::is_floating_point&lt;Numeric&gt;&gt;&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#ac51fc7826bf9dde0414a4b8c99bab7b8" class="m-doc">getRandom</a>(</span><span class="m-doc-wrap">) const -&gt; Real</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a059176266ae8536af1bbbb36ea75bcbd" class="m-doc">getRandom</a>(</span><span class="m-doc-wrap">) const -&gt; auto</span>
             </dt>
             <dd>Returns a random number in range.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae0af423a5717f07097f5b08d3271c88f" class="m-doc">min</a>(</span><span class="m-doc-wrap">) const -&gt; Numeric</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a93b6e24b1904bfc010e48aad5d07b805" class="m-doc">min</a>(</span><span class="m-doc-wrap">) const -&gt; auto</span>
             </dt>
             <dd>Returns minimum value in range.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa71d4d9ead6f8b6e6db58487ec4c6ec2" class="m-doc">max</a>(</span><span class="m-doc-wrap">) const -&gt; Numeric</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad0f3bf0710837c900879231db679fe27" class="m-doc">max</a>(</span><span class="m-doc-wrap">) const -&gt; auto</span>
             </dt>
             <dd>Returns maximum value in range.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a31cca68d6ebc97bcaa2bec6642289fd7" class="m-doc">operator==</a>(</span><span class="m-doc-wrap">const <a href="classzg2g_1_1_range.html" class="m-doc">Range</a>&lt;Numeric&gt;&amp; rhs) const -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aad9236d1f977a444e96a4231ad360a0b" class="m-doc">operator==</a>(</span><span class="m-doc-wrap">const <a href="classzg2g_1_1_range.html" class="m-doc">Range</a>&lt;Numeric&gt;&amp; rhs) const -&gt; auto</span>
             </dt>
             <dd>Compares ranges for equality.</dd>
+            <dt id="ae8024d0382cdad74af9c8432621977ee">
+              <span class="m-doc-wrap-bumper">auto <a href="#ae8024d0382cdad74af9c8432621977ee" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classzg2g_1_1_range.html" class="m-doc">Range</a>&lt;Numeric&gt;&amp; rhs) -&gt; auto&amp;</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a07d84fecd05ba8330e88f37ff08aebd0"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename Numeric, typename _2&gt;
-                template&lt;typename = <a href="namespacezg2g.html#a40132c484f6fcc543e7a36e4115efbed" class="m-doc">EnableIf</a>&lt;std::is_integral&lt;Numeric&gt;&gt;&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a07d84fecd05ba8330e88f37ff08aebd0" class="m-doc-self">Range</a>(</span><span class="m-doc-wrap">Numeric num)</span></span>
-            </h3>
-            <p>Constructor for one number.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">num</td>
-                  <td>Integer to be saved in range</td>
-                </tr>
-              </tbody>
-            </table>
-<p>Ranges can hold a single number, which works as if it was just a number. Note: Ranges can hold one number only if it is of integral type!</p>
-          </div></section>
-          <section class="m-doc-details" id="a5ce96c8dcd023dad9fa2d79bcbb62faf"><div>
+          <section class="m-doc-details" id="abf43a429be48fca72183f333645455fb"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Numeric, typename _2&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5ce96c8dcd023dad9fa2d79bcbb62faf" class="m-doc-self">Range</a>(</span><span class="m-doc-wrap">Numeric min,
-              Numeric max)</span></span>
+              <span class="m-doc-wrap-bumper"> zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abf43a429be48fca72183f333645455fb" class="m-doc-self">Range</a>(</span><span class="m-doc-wrap">Numeric min = 0,
+              Numeric max = 0)</span></span>
             </h3>
             <p>Constructor for min and max in range.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -158,13 +135,13 @@
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a2ceeb5eb047a5aba6ba049fb5b1a70bc"><div>
+          <section class="m-doc-details" id="a059176266ae8536af1bbbb36ea75bcbd"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Numeric, typename _2&gt;
                 template&lt;IntSpecialization dummy = intDummy, typename Integral = NumericEnableIf&lt;std::is_integral&lt;Numeric&gt;&gt;&gt;
               </div>
-              <span class="m-doc-wrap-bumper">Integral zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2ceeb5eb047a5aba6ba049fb5b1a70bc" class="m-doc-self">getRandom</a>(</span><span class="m-doc-wrap">) const</span></span>
+              <span class="m-doc-wrap-bumper">auto zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a059176266ae8536af1bbbb36ea75bcbd" class="m-doc-self">getRandom</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
             <p>Returns a random number in range.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -177,13 +154,13 @@
             </table>
 <p>Generates a uniformly distritbuted random number in the range, which is inclusive - [min, max];</p>
           </div></section>
-          <section class="m-doc-details" id="ac51fc7826bf9dde0414a4b8c99bab7b8"><div>
+          <section class="m-doc-details" id="a059176266ae8536af1bbbb36ea75bcbd"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Numeric, typename _2&gt;
                 template&lt;FloatSpecialization dummy = floatDummy, typename Real = NumericEnableIf&lt;std::is_floating_point&lt;Numeric&gt;&gt;&gt;
               </div>
-              <span class="m-doc-wrap-bumper">Real zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac51fc7826bf9dde0414a4b8c99bab7b8" class="m-doc-self">getRandom</a>(</span><span class="m-doc-wrap">) const</span></span>
+              <span class="m-doc-wrap-bumper">auto zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a059176266ae8536af1bbbb36ea75bcbd" class="m-doc-self">getRandom</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
             <p>Returns a random number in range.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -196,12 +173,12 @@
             </table>
 <p>Generates a uniformly distritbuted random number in the range, where min value is inclusive, and max value is exclusive - [min, max).</p>
           </div></section>
-          <section class="m-doc-details" id="ae0af423a5717f07097f5b08d3271c88f"><div>
+          <section class="m-doc-details" id="a93b6e24b1904bfc010e48aad5d07b805"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Numeric, typename _2&gt;
               </div>
-              <span class="m-doc-wrap-bumper">Numeric zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae0af423a5717f07097f5b08d3271c88f" class="m-doc-self">min</a>(</span><span class="m-doc-wrap">) const</span></span>
+              <span class="m-doc-wrap-bumper">auto zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a93b6e24b1904bfc010e48aad5d07b805" class="m-doc-self">min</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
             <p>Returns minimum value in range.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -213,12 +190,12 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aa71d4d9ead6f8b6e6db58487ec4c6ec2"><div>
+          <section class="m-doc-details" id="ad0f3bf0710837c900879231db679fe27"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Numeric, typename _2&gt;
               </div>
-              <span class="m-doc-wrap-bumper">Numeric zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa71d4d9ead6f8b6e6db58487ec4c6ec2" class="m-doc-self">max</a>(</span><span class="m-doc-wrap">) const</span></span>
+              <span class="m-doc-wrap-bumper">auto zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad0f3bf0710837c900879231db679fe27" class="m-doc-self">max</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
             <p>Returns maximum value in range.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -230,12 +207,12 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a31cca68d6ebc97bcaa2bec6642289fd7"><div>
+          <section class="m-doc-details" id="aad9236d1f977a444e96a4231ad360a0b"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Numeric, typename _2&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a31cca68d6ebc97bcaa2bec6642289fd7" class="m-doc-self">operator==</a>(</span><span class="m-doc-wrap">const <a href="classzg2g_1_1_range.html" class="m-doc">Range</a>&lt;Numeric&gt;&amp; rhs) const</span></span>
+              <span class="m-doc-wrap-bumper">auto zg2g::<wbr />Range&lt;Numeric, _2&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aad9236d1f977a444e96a4231ad360a0b" class="m-doc-self">operator==</a>(</span><span class="m-doc-wrap">const <a href="classzg2g_1_1_range.html" class="m-doc">Range</a>&lt;Numeric&gt;&amp; rhs) const</span></span>
             </h3>
             <p>Compares ranges for equality.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -301,7 +278,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>Greeter. Created with <a href="https://doxygen.org/">Doxygen</a> 1.8.20 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+        <p>Greeter. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>
